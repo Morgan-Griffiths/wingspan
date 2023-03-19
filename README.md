@@ -95,16 +95,15 @@ Points based on the number of birds of various types.
 
 # ML Representation
 
-## Shared board
+## Shared
 
 - the 4 end of round goals. 1x4 matrix. Each goal is a number.
 - Bird feeder. 1x6 matrix. 1-6 is a number representating food type. 6 is reroll possible yes/no.
-- Number of dice outside of bird feeder
+- Number of dice outside of bird feeder (inferred from feeder)
 - Face-up cards - 1x3
 - Deck - [0 - 170]
-- Bonus Deck - [0 - 26]
-- Discards - [0 - 170]
 - Bonus cards - [0 - 26]
+- Discards - [0 - 170]
 
 ## Player
 

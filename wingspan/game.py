@@ -4,7 +4,8 @@ class Game:
         self.reset()
 
     def reset(self):
-        ...
+        self.season = 0
+        self.first_player = 0
 
     def step(self,action):
         ...

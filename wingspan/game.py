@@ -9,6 +9,10 @@ from random import shuffle
 
 class UIState(Enum):
     initial_discard = auto()
+    round_1 = auto()
+    round_2 = auto()
+    round_3 = auto()
+    round_4 = auto()
     game_over = auto()
 
 
@@ -28,13 +32,13 @@ class Game:
         shuffle(birds)
         self.deck = birds
         # deal 5 cards to each player
-        for p in range(self.n_players):
+        for p in self.players:
             # add cards
             for _ in range(5):
-                p.add_bird_card(self.shared.draw())
+                p.add_bird_card(self.shared.draw_bird_card())
             # add bonus cards
             for _ in range(2):
-                p.add_bonus_card(self.shared.bonuses.draw())
+                p.add_bonus_card(self.shared.draw_bonus_card())
             # add food
             p.add_food(Food.invertibrate)
             p.add_food(Food.seed)
@@ -43,13 +47,14 @@ class Game:
             p.add_food(Food.fruit)
 
         # add 3 birds to faceup
-        self.shared.faceup.add(self.shared.draw())
+        for _ in range(3):
+            self.shared.faceup.add(self.shared.draw_bird_card())
         # roll dice in feeder
         self.shared.feeder.roll()
         # add 4 end of round goals
         self.shared.goals.draw(4)
         # place start marker
-        self.shared.place_start_marker()
+        self.shared.place_start_marker(self.n_players)
             
     def step(self, action):
         ...

@@ -1,3 +1,9 @@
 class BirdFaceup:
-    def __init__(self, deck):
-        self.cards = [deck.draw(), deck.draw(), deck.draw()]
+    def __init__(self):
+        self.cards = []
+
+    def add(self, card):
+        self.cards.append(card)
+
+    def reset(self):
+        self.cards = []

@@ -14,4 +14,4 @@ class PlayerFood:
         }
 
     def add(self, food_type):
-        self.food[Food[food_type]] += 1
+        self.food[food_type] += 1

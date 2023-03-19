@@ -14,11 +14,17 @@ class Shared:
         self.birds = BirdDeck()
         self.bonuses = BonusDeck()
         self.discards = DiscardDeck()
-        self.faceup = BirdFaceup(self.birds)
+        self.faceup = BirdFaceup()
         self.start_marker = Marker()
 
     def render(self):
         print("shared")
+
+    def draw_bird_card(self):
+        return self.birds.draw()
+    
+    def draw_bonus_card(self):
+        return self.bonuses.draw()
 
     def place_start_marker(self,n_players):
         self.start_marker.place(random.randint(0, n_players - 1))

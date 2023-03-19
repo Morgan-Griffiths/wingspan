@@ -3,19 +3,22 @@ import random
 class Feeder:
     def __init__(self):
         self.feeder = [],
-        self.picked = [],
+        self.used_dice = [],
 
     def roll(self):
         self.feeder = [random.randint(1, 7) for _ in range(5)]
 
+    def roll_used_dice(self):
+        self.used_dice = [random.randint(1, 7) for _ in range(len(self.used_dice))]
+
     def pick(self, index):
-        self.picked.append(self.feeder.pop(index))
+        self.used_dice.append(self.feeder.pop(index))
     
     def reset(self):
-        self.picked = []
+        self.used_dice = []
         self.roll()
 
     def render(self):
         print("feeder")
         print("feeder: ", self.feeder)
-        print("picked: ", self.picked)
+        print("used_dice: ", self.used_dice)

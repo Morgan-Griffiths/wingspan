@@ -16,6 +16,9 @@ class Player:
         for card in cards:
             self.hand.add(card)
 
+    def add_bird_card(self, card):
+        self.hand.add(card)
+
     def add_bonus_card(self,card):
         self.bonus_cards.append(card)
 
@@ -35,9 +38,10 @@ class Player:
     def discard_bird_card(self, card):
         self.hand.add(card)
 
-
-
     def render(self):
         print(f"tucked/cached={self.tucked+self.cached}")
         for card in self.hand:
             print(card)
+        for card in self.bonus_cards:
+            print(card)
+        self.food.render()

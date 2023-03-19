@@ -97,17 +97,19 @@ Points based on the number of birds of various types.
 
 ## Board representation
 
-stack of 3x5 planes.
+stack of 3x5 planes for each player.
 
 - number of eggs in each square.
 - number of cached food or tucked cards in each square.
 - bird card in each square.
 
-the 4 end of round goals. 1x4 matrix. Each goal is a number.
+## Shared board
 
-Bird feeder. 1x6 matrix. 1-5 is a number representating food type. 6 is reroll possible yes/no.
-
-Face-up cards - 1x3
+- the 4 end of round goals. 1x4 matrix. Each goal is a number.
+- Bird feeder. 1x6 matrix. 1-5 is a number representating food type. 6 is reroll possible yes/no.
+- Face-up cards - 1x3
+- Deck
+- Discards
 
 ## Hand representation
 

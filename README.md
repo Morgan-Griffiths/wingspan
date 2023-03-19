@@ -67,6 +67,7 @@ Each bird card consists of the following:
 3. Berry
 4. Fish
 5. Mouse
+6. worm/seed
 
 ## Habitat
 
@@ -99,4 +100,45 @@ Points based on the number of birds of various types.
 stack of 3x5 planes.
 
 - number of eggs in each square.
-- number of cached food or in each square.
+- number of cached food or tucked cards in each square.
+- bird card in each square.
+
+the 4 end of round goals. 1x4 matrix. Each goal is a number.
+
+Bird feeder. 1x6 matrix. 1-5 is a number representating food type. 6 is reroll possible yes/no.
+
+Face-up cards - 1x3
+
+## Hand representation
+
+### Bird cards in hand
+
+Bird cards in hand.
+1x20? matrix. integer for each bird card.
+
+### Bonus cards in hand
+
+Bonus cards in hand.
+1x10? matrix. integer for each bonus card.
+
+### Player food
+
+1x5 matrix. Each location is the food type, integers of each food amount.
+
+## Action representation
+
+### Place bird card
+
+3x5 matrix of 0s and 1s.
+
+### Gain food
+
+1x5 matrix of 0s and 1s.
+
+### Lay eggs
+
+3x5 matrix of 0s and 1s.
+
+### Draw cards
+
+1x3 matrix of 0s and 1s.

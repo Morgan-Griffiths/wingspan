@@ -424,4 +424,14 @@ birds = [
         points=2,
         action=no_op_action,
     ),
+    WingspanBird(
+        "Black Billed Magpie",
+        habitat={Habitat.prairie, Habitat.wetlands},
+        foodcost=FoodCost([Food.invertibrate], one_of=False),
+        wingspan=64,
+        nest_type=NestType.star,
+        egg_capacity=3,
+        points=3,
+        action=no_op_action,
+    ),
 ]

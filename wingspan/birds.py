@@ -3,29 +3,25 @@ from wingspan.food import Food
 
 
 class FoodCost:
-    def __init__(self, n_invertibrates, n_seeds, n_fish, n_rodent, n_fruit, n_wild):
-        self.n_invertibrates = n_invertibrates
-        self.n_seeds = n_seeds
-        self.n_fish = n_fish
-        self.n_rodent = n_rodent
-        self.n_fruit = n_fruit
-        self.n_wild = n_wild
+    def __init__(self, foods, one_of=False):
+        self.foods = foods
+        self.one_of = one_of
 
 
 class NestType(Enum):
     """Enumerate all nest types in the game Wingspan."""
 
-    bowl = 1
-    cavity = 2
-    platform = 3
-    ground = 4
-    star = 5
+    bowl = auto()
+    cavity = auto()
+    platform = auto()
+    ground = auto()
+    star = auto()
 
 
 class ActivatedType(Enum):
-    hunter = 1
-    flocking = 2
-    none = 3
+    hunter = auto()
+    flocking = auto()
+    none = auto()
 
 
 class Habitat(Enum):
@@ -48,12 +44,6 @@ class WingspanBird:
         self.egg_capacity = egg_capacity
         self.points = points
         self.action = action
-
-
-""" Enumerate all 170 birds in the game Wingspan. """
-
-eastern_screech_owl = WingspanBird(1, 1, 1, 1, 1)
-belted_kingfisher = WingspanBird(1, 1, 1, 1, 1)
 
 
 def no_op_action():
@@ -125,6 +115,7 @@ birds = [
     ),
     WingspanBird(
         "American coot",
+        habitat={Habitat.wetlands},
         foodcost=FoodCost([Food.seed, Food.wild], one_of=False),
         wingspan=61,
         nest_type=NestType.platform,
@@ -134,6 +125,7 @@ birds = [
     ),
     WingspanBird(
         "American Crow",
+        habitat={Habitat.wetlands, Habitat.prairie, Habitat.forest},
         foodcost=FoodCost([Food.wild], one_of=False),
         wingspan=99,
         nest_type=NestType.platform,
@@ -143,6 +135,7 @@ birds = [
     ),
     WingspanBird(
         "American Goldfinch",
+        habitat={Habitat.prairie},
         foodcost=FoodCost([Food.seed, Food.seed]),
         wingspan=23,
         nest_type=NestType.bowl,
@@ -152,6 +145,7 @@ birds = [
     ),
     WingspanBird(
         "American Kestrel",
+        habitat={Habitat.prairie},
         foodcost=FoodCost([Food.invertibrate, Food.rodent]),
         wingspan=56,
         nest_type=NestType.cavity,
@@ -161,6 +155,7 @@ birds = [
     ),
     WingspanBird(
         "American Oystercatcher",
+        habitat={Habitat.wetlands},
         foodcost=FoodCost([Food.invertibrate, Food.invertibrate]),
         wingspan=81,
         nest_type=NestType.ground,
@@ -170,5 +165,54 @@ birds = [
     ),
     WingspanBird(
         "American Redstart",
+        habitat={Habitat.forest},
+        foodcost=FoodCost([Food.invertibrate, Food.fruit]),
+        wingspan=20,
+        nest_type=NestType.bowl,
+        egg_capacity=2,
+        points=4,
+        action=no_op_action,
+    ),
+    WingspanBird(
+        "American Robin",
+        habitat={Habitat.forest, Habitat.prairie},
+        foodcost=FoodCost([Food.invertibrate, Food.fruit], one_of=True),
+        wingspan=43,
+        nest_type=NestType.bowl,
+        egg_capacity=4,
+        points=1,
+        action=no_op_action,
+    ),
+    WingspanBird(
+        "American White Pelican",
+        habitat={Habitat.wetlands},
+        foodcost=FoodCost([Food.fish, Food.fish], one_of=False),
+        wingspan=274,
+        nest_type=NestType.ground,
+        egg_capacity=1,
+        points=5,
+        action=no_op_action,
+    ),
+    WingspanBird(
+        "American Woodcock",
+        habitat={Habitat.prairie, Habitat.forest},
+        foodcost=FoodCost(
+            [Food.invertibrate, Food.invertibrate, Food.seed], one_of=False
+        ),
+        wingspan=46,
+        nest_type=NestType.ground,
+        egg_capacity=2,
+        points=9,
+        action=no_op_action,
+    ),
+    WingspanBird(
+        "Anhinga",
+        habitat={Habitat.wetlands},
+        foodcost=FoodCost([Food.fish, Food.fish], one_of=False),
+        wingspan=46,
+        nest_type=NestType.ground,
+        egg_capacity=2,
+        points=9,
+        action=no_op_action,
     ),
 ]

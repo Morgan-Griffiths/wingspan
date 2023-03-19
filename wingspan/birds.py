@@ -209,10 +209,10 @@ birds = [
         "Anhinga",
         habitat={Habitat.wetlands},
         foodcost=FoodCost([Food.fish, Food.fish], one_of=False),
-        wingspan=46,
-        nest_type=NestType.ground,
+        wingspan=114,
+        nest_type=NestType.platform,
         egg_capacity=2,
-        points=9,
+        points=6,
         action=no_op_action,
     ),
 ]

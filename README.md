@@ -107,9 +107,11 @@ stack of 3x5 planes for each player.
 
 - the 4 end of round goals. 1x4 matrix. Each goal is a number.
 - Bird feeder. 1x6 matrix. 1-6 is a number representating food type. 6 is reroll possible yes/no.
+- Number of dice outside of bird feeder
 - Face-up cards - 1x3
 - Deck - [0 - 170]
 - Discards - [0 - 170]
+- Bonus cards - [0 - 26]
 
 ## Hand representation
 
@@ -154,4 +156,5 @@ Bonus cards in hand.
   - 7 nest capacity (number between 0-7)
   - 8 points
   - 9 wingspan
-  - 10 action
+  - 10 action type (could be extraneous)
+  - 11 action number (enum of actions)

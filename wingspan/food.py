@@ -8,3 +8,7 @@ class Food(Enum):
     rodent = auto()
     fish = auto()
     wild = auto()
+
+    def __str__(self):
+        return self.name
+    

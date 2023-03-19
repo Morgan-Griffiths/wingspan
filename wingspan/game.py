@@ -1,6 +1,10 @@
 from enum import Enum, auto
+from wingspan.food import Food
 from wingspan.player import Player
 from wingspan.shared import Shared
+from wingspan.birds import birds
+
+from random import shuffle
 
 
 class UIState(Enum):
@@ -12,15 +16,41 @@ class Game:
     def __init__(self, n_players):
         self.state = UIState.initial_discard
         self.shared = Shared()
-        self.players = [Player(self.shared.birds) for _ in range(n_players)]
+        self.players = [Player() for _ in range(n_players)]
         self.season = 0
+        self.n_players = n_players
         self.first_player = 0
         self.current_player = 0
 
     def reset(self):
         self.season = 0
         self.first_player = 0
+        shuffle(birds)
+        self.deck = birds
+        # deal 5 cards to each player
+        for p in range(self.n_players):
+            # add cards
+            for _ in range(5):
+                p.add_bird_card(self.shared.draw())
+            # add bonus cards
+            for _ in range(2):
+                p.add_bonus_card(self.shared.bonuses.draw())
+            # add food
+            p.add_food(Food.invertibrate)
+            p.add_food(Food.seed)
+            p.add_food(Food.fish)
+            p.add_food(Food.rodent)
+            p.add_food(Food.fruit)
 
+        # add 3 birds to faceup
+        self.shared.faceup.add(self.shared.draw())
+        # roll dice in feeder
+        self.shared.feeder.roll()
+        # add 4 end of round goals
+        self.shared.goals.draw(4)
+        # place start marker
+        self.shared.place_start_marker()
+            
     def step(self, action):
         ...
 

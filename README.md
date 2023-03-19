@@ -2,6 +2,11 @@
 
 Wingspan the board game, implemented in Python. Designed for training AI agents.
 
+# Helpful links
+
+https://navarog.github.io/wingsearch/
+https://wingsplain.com/wingspan-bird-card-tier-list/
+
 ## Board
 
 3 x 5 grid of habitats:
@@ -32,7 +37,7 @@ There are 4 possible initial actions each turn:
    3. Trigger any special abilities of the bird card (if any).
 2. Gain food
    1. Choose food from the bird feeder or reroll if available.
-   2. Discard a card for an extra food (if applicable).
+   2. Discard a ca rd for an extra food (if applicable).
    3. Trigger bird card abilities in the forrest.
 3. Lay eggs
    1. Discard a food for an extra egg (if applicable).
@@ -87,4 +92,11 @@ Each bird card consists of the following:
 
 Points based on the number of birds of various types.
 
-### ML Representation
+# ML Representation
+
+## Board representation
+
+stack of 3x5 planes.
+
+- number of eggs in each square.
+- number of cached food or in each square.

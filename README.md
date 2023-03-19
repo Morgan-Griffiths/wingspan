@@ -62,12 +62,12 @@ Each bird card consists of the following:
 
 ## Food
 
-1. Worm
+1. Invertibrate
 2. Seed
-3. Berry
+3. Fruit
 4. Fish
-5. Mouse
-6. worm/seed
+5. Rodent
+6. Invertibrate/seed
 
 ## Habitat
 
@@ -106,10 +106,10 @@ stack of 3x5 planes for each player.
 ## Shared board
 
 - the 4 end of round goals. 1x4 matrix. Each goal is a number.
-- Bird feeder. 1x6 matrix. 1-5 is a number representating food type. 6 is reroll possible yes/no.
+- Bird feeder. 1x6 matrix. 1-6 is a number representating food type. 6 is reroll possible yes/no.
 - Face-up cards - 1x3
-- Deck
-- Discards
+- Deck - [0 - 170]
+- Discards - [0 - 170]
 
 ## Hand representation
 
@@ -144,3 +144,14 @@ Bonus cards in hand.
 ### Draw cards
 
 1x3 matrix of 0s and 1s.
+
+### Bird cards
+
+- each bird is a number 0-170
+- each bird card can be represented by a vector:
+  - 0-5 (invertibrate,seed,...,wild) count of each food type required to play
+  - 6 nest type
+  - 7 nest capacity (number between 0-7)
+  - 8 points
+  - 9 wingspan
+  - 10 action

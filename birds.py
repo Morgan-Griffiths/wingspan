@@ -15,7 +15,7 @@ class NestType(Enum):
     cavity = 2
     platform = 3
     ground = 4
-    start = 5
+    star = 5
 
 class ActionType(Enum):
     """ Enumerate all action types in the game Wingspan. """

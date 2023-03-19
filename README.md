@@ -37,7 +37,7 @@ There are 4 possible initial actions each turn:
    3. Trigger any special abilities of the bird card (if any).
 2. Gain food
    1. Choose food from the bird feeder or reroll if available.
-   2. Discard a ca rd for an extra food (if applicable).
+   2. Discard a card for an extra food (if applicable).
    3. Trigger bird card abilities in the forrest.
 3. Lay eggs
    1. Discard a food for an extra egg (if applicable).
@@ -95,14 +95,6 @@ Points based on the number of birds of various types.
 
 # ML Representation
 
-## Board representation
-
-stack of 3x5 planes for each player.
-
-- number of eggs in each square.
-- number of cached food or tucked cards in each square.
-- bird card in each square.
-
 ## Shared board
 
 - the 4 end of round goals. 1x4 matrix. Each goal is a number.
@@ -110,10 +102,23 @@ stack of 3x5 planes for each player.
 - Number of dice outside of bird feeder
 - Face-up cards - 1x3
 - Deck - [0 - 170]
+- Bonus Deck - [0 - 26]
 - Discards - [0 - 170]
 - Bonus cards - [0 - 26]
 
-## Hand representation
+## Player
+
+### Tucked/Cached
+
+- points from tucked cards
+- points from cached food
+
+### Board representation
+
+stack of 3x5 planes for each player.
+
+- number of eggs in each square.
+- bird card in each square.
 
 ### Bird cards in hand
 

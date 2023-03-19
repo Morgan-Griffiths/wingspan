@@ -1,7 +1,8 @@
 from enum import Enum
 
+
 class FoodCost:
-    def __init__(self,n_invertibrates,n_seeds,n_fish,n_mouse,n_berry,n_wild):
+    def __init__(self, n_invertibrates, n_seeds, n_fish, n_mouse, n_berry, n_wild):
         self.n_invertibrates = n_invertibrates
         self.n_seeds = n_seeds
         self.n_fish = n_fish
@@ -9,13 +10,16 @@ class FoodCost:
         self.n_berry = n_berry
         self.n_wild = n_wild
 
+
 class NestType(Enum):
-    """ Enumerate all nest types in the game Wingspan. """
+    """Enumerate all nest types in the game Wingspan."""
+
     bowl = 1
     cavity = 2
     platform = 3
     ground = 4
     star = 5
+
 
 class ActivatedType(Enum):
     hunter = 1
@@ -24,16 +28,42 @@ class ActivatedType(Enum):
 
 
 class WingspanBird:
-    """ Generic class for birds from the game Wingspan """
-    def __init__(self,n_invertibrates,n_seeds,n_fish,n_mouse,n_berry,n_wild,wingspan,nest_type,egg_capacity,points,action):
-        self.food_cost = FoodCost(n_invertibrates,n_seeds,n_fish,n_mouse,n_berry,n_wild)
+    """Generic class for birds from the game Wingspan"""
+
+    def __init__(
+        self, name, foodcost, wingspan, nest_type, egg_capacity, points, action
+    ):
+        self.name = name
+        self.food_cost = foodcost
         self.wingspan = wingspan
         self.nest_type = nest_type
         self.egg_capacity = egg_capacity
         self.points = points
         self.action = action
 
+
 """ Enumerate all 170 birds in the game Wingspan. """
 
-eastern_screech_owl = WingspanBird(1,1,1,1,1)
-belted_kingfisher = WingspanBird(1,1,1,1,1)
+eastern_screech_owl = WingspanBird(1, 1, 1, 1, 1)
+belted_kingfisher = WingspanBird(1, 1, 1, 1, 1)
+
+
+def no_op_action():
+    ...
+
+
+birds = [
+    WingspanBird(
+        "Wood Duck", FoodCost(0, 2, 0, 0, 1, 0), 76, NestType.cavity, 4, 4, no_op_action
+    ),
+    WingspanBird(
+        "Belted Kingfisher",
+        FoodCost(0, 0, 1, 0, 0, 1),
+        53,
+        NestType.star,
+        4,
+        4,
+        no_op_action,
+    ),
+    WingspanBird("Abbot's booby", FoodCost(0,0,0)),
+]

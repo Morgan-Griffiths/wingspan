@@ -1,4 +1,4 @@
-from enum import Enum
+from enum import Enum, auto
 
 
 class FoodCost:
@@ -27,13 +27,20 @@ class ActivatedType(Enum):
     none = 3
 
 
+class Habitat(Enum):
+    forest = auto()
+    prairie = auto()
+    wetlands = auto()
+
+
 class WingspanBird:
     """Generic class for birds from the game Wingspan"""
 
     def __init__(
-        self, name, foodcost, wingspan, nest_type, egg_capacity, points, action
+        self, name, habitat, foodcost, wingspan, nest_type, egg_capacity, points, action
     ):
         self.name = name
+        self.habitat = habitat
         self.food_cost = foodcost
         self.wingspan = wingspan
         self.nest_type = nest_type
@@ -54,16 +61,37 @@ def no_op_action():
 
 birds = [
     WingspanBird(
-        "Wood Duck", FoodCost(0, 2, 0, 0, 1, 0), 76, NestType.cavity, 4, 4, no_op_action
+        name="Wood Duck",
+        habitat={Habitat.wetlands, Habitat.forest},
+        foodcost=FoodCost(0, 2, 0, 0, 1, 0),
+        wingspan=76,
+        nest_type=NestType.cavity,
+        egg_capacity=4,
+        points=4,
+        action=no_op_action,
     ),
     WingspanBird(
-        "Belted Kingfisher",
-        FoodCost(0, 0, 1, 0, 0, 1),
-        53,
-        NestType.star,
-        4,
-        4,
-        no_op_action,
+        name="Belted Kingfisher",
+        habitat={Habitat.wetlands},
+        foodcost=FoodCost(0, 0, 1, 0, 0, 1),
+        wingspan=53,
+        nest_type=NestType.star,
+        egg_capacity=4,
+        points=4,
+        action=no_op_action,
     ),
-    WingspanBird("Abbot's booby", FoodCost(0,0,0)),
+    WingspanBird(
+        name="Abbot's booby",
+        habitat={Habitat.forest},
+        foodcost=FoodCost(0, 0, 2, 0, 0, 0),
+        wingspan=190,
+        nest_type=NestType.platform,
+        egg_capacity=1,
+        points=5,
+        action=no_op_action,
+    ),
+    WingspanBird(
+        "Acorn Woodpecker",
+        FoodCost(0, 3, 0, 0, 0, 0),
+    ),
 ]

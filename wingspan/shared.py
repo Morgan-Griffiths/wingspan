@@ -1,4 +1,4 @@
-from wingspan.bird_deck import BirdDeck
+from wingspan.bird_deck import BirdDeck, DiscardDeck
 from wingspan.bird_faceup import BirdFaceup
 from wingspan.bonus_deck import BonusDeck
 from wingspan.feeder import Feeder
@@ -11,5 +11,5 @@ class Shared:
         self.goals = Goals()
         self.birds = BirdDeck()
         self.bonuses = BonusDeck()
-        self.discards = BirdDeck()
+        self.discards = DiscardDeck()
         self.faceup = BirdFaceup()

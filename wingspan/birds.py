@@ -104,7 +104,9 @@ birds = [
     WingspanBird(
         "American Avocet",
         habitat={Habitat.wetlands},
-        foodcost=FoodCost(2, 1, 0, 0, 0, 0),
+        foodcost=FoodCost(
+            [Food.invertibrate, Food.invertibrate, Food.seed], one_of=False
+        ),
         wingspan=79,
         nest_type=NestType.ground,
         egg_capacity=2,
@@ -114,7 +116,7 @@ birds = [
     WingspanBird(
         "American Bittern",
         habitat={Habitat.wetlands},
-        foodcost=FoodCost(1, 0, 1, 1, 0, 0),
+        foodcost=FoodCost([Food.invertibrate, Food.fish, Food.rodent], one_of=False),
         wingspan=107,
         nest_type=NestType.platform,
         egg_capacity=2,
@@ -123,7 +125,7 @@ birds = [
     ),
     WingspanBird(
         "American coot",
-        foodcost=FoodCost(0, 1, 0, 0, 0, 1),
+        foodcost=FoodCost([Food.seed, Food.wild], one_of=False),
         wingspan=61,
         nest_type=NestType.platform,
         egg_capacity=5,
@@ -132,9 +134,41 @@ birds = [
     ),
     WingspanBird(
         "American Crow",
-        foodcost=FoodCost(0, 0, 0, 0, 0, 1),
+        foodcost=FoodCost([Food.wild], one_of=False),
         wingspan=99,
         nest_type=NestType.platform,
         egg_capacity=2,
+        points=4,
+        action=no_op_action,
+    ),
+    WingspanBird(
+        "American Goldfinch",
+        foodcost=FoodCost([Food.seed, Food.seed]),
+        wingspan=23,
+        nest_type=NestType.bowl,
+        egg_capacity=3,
+        points=3,
+        action=no_op_action,
+    ),
+    WingspanBird(
+        "American Kestrel",
+        foodcost=FoodCost([Food.invertibrate, Food.rodent]),
+        wingspan=56,
+        nest_type=NestType.cavity,
+        egg_capacity=3,
+        points=5,
+        action=no_op_action,
+    ),
+    WingspanBird(
+        "American Oystercatcher",
+        foodcost=FoodCost([Food.invertibrate, Food.invertibrate]),
+        wingspan=81,
+        nest_type=NestType.ground,
+        egg_capacity=2,
+        points=5,
+        action=no_op_action,
+    ),
+    WingspanBird(
+        "American Redstart",
     ),
 ]

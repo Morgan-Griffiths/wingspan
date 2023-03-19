@@ -12,4 +12,4 @@ class Shared:
         self.birds = BirdDeck()
         self.bonuses = BonusDeck()
         self.discards = DiscardDeck()
-        self.faceup = BirdFaceup()
+        self.faceup = BirdFaceup(self.birds)

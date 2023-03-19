@@ -30,6 +30,8 @@ class Habitat(Enum):
     wetlands = auto()
 
 
+
+
 class WingspanBird:
     """Generic class for birds from the game Wingspan"""
 

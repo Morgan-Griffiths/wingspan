@@ -13,3 +13,6 @@ class Shared:
         self.bonuses = BonusDeck()
         self.discards = DiscardDeck()
         self.faceup = BirdFaceup(self.birds)
+
+    def render(self):
+        print("shared")

@@ -111,13 +111,32 @@ def all_gain_food(game, food_type):
         player.food.add(food_type)
 
 
+def initial_discards(game, player):
+    player_choices = player.hand
+    # get all possible discards
+    # ask player what they want to discard or continue
+    input()  # for ai, we replace with query model (playernum)
+    # repeat if not continue
+
+
+# jq -r '[.[].power_text] | unique | .[]' birds.json | pbcopy
 actions = {
     "all players draw 1 [card] from the deck.": no_op,
-    "all players gain 1 [fish] from the supply.": lambda game: all_gain_food(game, Food.fish),
-    "all players gain 1 [fruit] from the supply.": lambda game: all_gain_food(game, Food.fruit),
-    "all players gain 1 [invertebrate] from the supply.": lambda game: all_gain_food(game, Food.invertibrate),
-    "all players gain 1 [seed] from the supply.": lambda game: all_gain_food(game, Food.seed),
-    "all players gain a [fruit] from the supply.": lambda game: all_gain_food(game, Food.fruit),
+    "all players gain 1 [fish] from the supply.": lambda game: all_gain_food(
+        game, Food.fish
+    ),
+    "all players gain 1 [fruit] from the supply.": lambda game: all_gain_food(
+        game, Food.fruit
+    ),
+    "all players gain 1 [invertebrate] from the supply.": lambda game: all_gain_food(
+        game, Food.invertibrate
+    ),
+    "all players gain 1 [seed] from the supply.": lambda game: all_gain_food(
+        game, Food.seed
+    ),
+    "all players gain a [fruit] from the supply.": lambda game: all_gain_food(
+        game, Food.fruit
+    ),
     "all players lay 1 [egg] on any 1 [bowl] bird. you may lay 1 [egg] on 1 additional [bowl] bird.": no_op,
     "all players lay 1 [egg] on any 1 [cavity] bird. you may lay 1 [egg] on 1 additional [cavity] bird.": no_op,
     "all players lay 1 [egg] on any 1 [ground] bird. you may lay 1 [egg] on 1 additional [ground] bird.": no_op,

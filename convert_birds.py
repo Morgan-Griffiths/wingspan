@@ -1,9 +1,10 @@
 import pickle
 import numpy as np
 import pandas as pd
+import json
 
 
-card_list_path = '/Users/Shuza/Downloads/wingspan-card-lists-20201118.xlsx'
+card_list_path = '/Users/Shuza/Code/Wingspan/wingspan-card-lists-20201118.xlsx'
 
 df = pd.read_excel(card_list_path, sheet_name=1)
 df = df.dropna(axis=1, how='all')
@@ -41,8 +42,8 @@ for index, row in df.iterrows():
         bird[col_name.lower()] = col_value
     birds.append(bird)
     
-with open('birds.pkl', 'wb') as f:
-    pickle.dump(birds, f)
+with open('birds.json', 'w') as f:
+    f.write(json.dumps(birds))
 # remaining_cols
 # print(df.columns)
 

@@ -5,7 +5,7 @@ from wingspan.player import Player
 from wingspan.shared import Shared
 from wingspan.birds import WingspanBird
 from wingspan.bonus_deck import BonusNames
-import pickle
+import json
 
 class Game:
     def __init__(self, n_players):
@@ -16,8 +16,8 @@ class Game:
         self.birds = self.load_birds()
 
     def load_birds(self):
-        with open('birds.pkl', 'rb') as f:
-            raw_birds = pickle.load(f)
+        with open('birds.json', 'r') as f:
+            raw_birds = json.loads(f)
 
         birds = []
         bonus_names = [x.lower() for x in filter(lambda x: x[0] != '_',dir(BonusNames))]

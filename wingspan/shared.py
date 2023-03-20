@@ -8,10 +8,10 @@ from wingspan.marker import Marker
 import random
 
 class Shared:
-    def __init__(self):
+    def __init__(self,birds):
         self.feeder = Feeder()
         self.goals = Goals()
-        self.birds = BirdDeck()
+        self.birds = BirdDeck(birds)
         self.bonuses = BonusDeck()
         self.discards = DiscardDeck()
         self.faceup = BirdFaceup()

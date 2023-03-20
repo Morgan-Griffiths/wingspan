@@ -15,3 +15,6 @@ class PlayerFood:
 
     def add(self, food_type):
         self.food[food_type] += 1
+
+    def __repr__(self):
+        return f'{self.food}'

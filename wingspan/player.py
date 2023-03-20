@@ -1,4 +1,5 @@
 from wingspan.board import Board
+from wingspan.helpers import UIState
 from wingspan.player_food import PlayerFood
 from wingspan.player_hand import PlayerHand
 
@@ -11,6 +12,17 @@ class Player:
         self.bonus_cards = []
         self.board = Board()
         self.food = PlayerFood()
+        self.state = UIState.initial_discard_cards
+        self.turn = 0
+
+    def reset(self):
+        ...
+
+    def increment_turn(self):
+        self.turn += 1
+
+    def reset_turn(self):
+        self.turn = 0
 
     def add_bird_cards(self, cards):
         for card in cards:
@@ -37,6 +49,17 @@ class Player:
 
     def discard_bird_card(self, card):
         self.hand.add(card)
+
+    def observation(self):
+        return {
+            "tucked": self.tucked,
+            "cached": self.cached,
+            "hand": [card for card in self.hand.cards],
+            "bonus_cards": [card for card in self.bonus_cards],
+            "board": self.board,
+            "food": self.food,
+            "turn": self.turn,
+        }
 
     def render(self):
         print(f"tucked/cached={self.tucked+self.cached}")

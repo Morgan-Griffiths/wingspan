@@ -1,12 +1,12 @@
-from wingspan.birds import birds
 from random import shuffle
 
 class BirdDeck:
-    def __init__(self):
+    def __init__(self,birds):
+        self.birds = birds
         self.reset()
 
     def reset(self):
-        self.cards = birds.copy()
+        self.cards = self.birds.copy()
         shuffle(self.cards)
 
     def draw(self):

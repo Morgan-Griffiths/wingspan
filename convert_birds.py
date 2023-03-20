@@ -3,6 +3,8 @@ import numpy as np
 import pandas as pd
 import json
 
+from wingspan.bonus_deck import BonusNames
+
 
 card_list_path = '/Users/Shuza/Code/Wingspan/wingspan-card-lists-20201118.xlsx'
 
@@ -16,15 +18,11 @@ df = df.drop([0, 1])
 skip_cols = ['Scientific name', 'Unnamed: 2']
 remaining_cols = [col for col in df.columns if col not in skip_cols]
 
-nest_types = df['Nest type'].unique().tolist()
-print(nest_types)
 birds = []
-
-power_categories = ['Caching Food', 'Egg-laying', 'Card-drawing', 'Flocking', 'Food from Supply', 'Hunting/Fishing', 'Food from Birdfeeder', 'Other']#df['PowerCategory'].dropna().unique().tolist()
-print(power_categories)
+bonus_names = [x.lower() for x in filter(lambda x: x[0] != '_',dir(BonusNames))]
 
 for index, row in df.iterrows():
-    bird = {}
+    bird = {'bonuses': {},'habitat':{},'food':{}}
     for col_name, col_value in zip(df.columns, row):
         if col_name in skip_cols:
             continue
@@ -35,12 +33,25 @@ for index, row in df.iterrows():
                 col_value = True
         # check if value is nan
         elif pd.isna(col_value):
-            col_value = False
+            if col_name == 'powercategory':
+                col_value = None
+            elif col_name in ['seed', 'fruit', 'fish', 'rodent', 'invertibrate']:
+                col_value = 0
+            else:
+                col_value = False
         elif isinstance(col_value, float):
             col_value = int(col_value)
-        col_name = col_name.replace(' ', '_')
-        bird[col_name.lower()] = col_value
+        col_name = col_name.replace(' ', '_').lower()
+        if col_name in ['seed', 'fruit', 'fish', 'rodent', 'invertibrate']:
+            bird['food'][col_name] = col_value
+        elif col_name in ['forest','wetland','grassland']:
+            bird['habitat'][col_name] = col_value
+        elif col_name in bonus_names:
+            bird['bonuses'][col_name] = col_value
+        else:
+            bird[col_name] = col_value
     birds.append(bird)
+print(birds[0])
     
 with open('birds.json', 'w') as f:
     f.write(json.dumps(birds))
@@ -48,3 +59,12 @@ with open('birds.json', 'w') as f:
 # print(df.columns)
 
 # print(df['PowerCategory'].unique())
+
+""" 
+bonus cards nested 
+food nested
+food false -> 0
+habitat nested
+
+powercategory false -> null
+"""

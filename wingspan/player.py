@@ -1,7 +1,9 @@
 from wingspan.board import Board
+from wingspan.bonus_deck import BonusCards
 from wingspan.helpers import UIState
 from wingspan.player_food import PlayerFood
 from wingspan.player_hand import PlayerHand
+from wingspan.helpers import GameActions
 
 
 class Player:
@@ -9,7 +11,7 @@ class Player:
         self.tucked = 0
         self.cached = 0
         self.hand = PlayerHand()
-        self.bonus_cards = []
+        self.bonus_cards = BonusCards()
         self.board = Board()
         self.food = PlayerFood()
         self.state = UIState.initial_discard_cards
@@ -32,25 +34,49 @@ class Player:
         self.hand.add(card)
 
     def add_bonus_card(self,card):
-        self.bonus_cards.append(card)
+        self.bonus_cards.add(card)
+
+    def discard_bonus_card(self,action):
+        self.bonus_cards.discard(action)
 
     def add_food(self,food):
         self.food.add(food)
 
-    def discard_bonus_card(self,card):
-        self.bonus_cards.remove(card)
+    def discard_food(self,food):
+        self.food.discard(food)
+
+    def discard_bird_card(self, action):
+        if self.state == UIState.initial_discard_cards:
+            if action == GameActions.no_op: # discard is over
+                self.state = UIState.initial_discard_food
+                return
+            else:
+                self.hand.discard(action)
+        elif self.state == UIState.initial_discard_food:
+            # compare num food vs num cards
+            self.food.discard(action)
+            if len(self.hand) - 5 == len(self.food):
+                self.state = UIState.initial_discard_bonus_cards
+        elif self.state == UIState.initial_discard_bonus_cards:
+            self.discard_bonus_card(action)
+            self.state = UIState.round_1
+        elif self.state == UIState.round_1:
+            ...
+
 
     def cache_bird_card(self, card):
         self.hand.discard(card)
         self.cached += 1
 
-    def cache_food(self,food):
-        ...
 
-    def discard_bird_card(self, card):
-        self.hand.add(card)
 
     def observation(self):
+        if self.state == UIState.initial_discard_cards:
+            return f"hand {[card for card in self.hand.cards]}"
+        elif self.state == UIState.initial_discard_food:
+            return {"food": [food for food in self.food]},
+        elif self.state == UIState.initial_discard_bonus_cards:
+            return {"bonus_cards": [card for card in self.bonus_cards]},
         return {
             "tucked": self.tucked,
             "cached": self.cached,

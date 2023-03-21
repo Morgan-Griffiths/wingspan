@@ -1,41 +1,35 @@
 from enum import Enum, auto
 from wingspan.food import Food
-from wingspan.helpers import UIState
+from wingspan.helpers import UIState, human_readable_action_dictionary, GameActions
 from wingspan.player import Player
 from wingspan.shared import Shared
 from wingspan.birds import WingspanBird
 from wingspan.bonus_deck import BonusNames
 import json
-
-
+import numpy as np
 class Game:
     def __init__(self, n_players):
         self.n_players = n_players
         self.shared = None
         self.players = None
         self.first_player = None
+        self.discarding_cards = False
+        self.discarding_food = False
+        self.drawing_cards = False
+        self.picking_food = False
+        self.picking_bird = False
+        self.picking_board_location = False
         self.birds = self.load_birds()
-        self.current_player = None  # player whose round it is
-        self.acting_player = None  # player who is performing the current action
-        self.current_action = None  # action currently being resolved
 
     def load_birds(self):
-        with open("birds.json", "r") as f:
-            raw_birds = json.loads(f)
+        with open('birds.json', 'r') as f:
+            raw_birds = json.loads(f.read())
 
         birds = []
-        bonus_names = [
-            x.lower() for x in filter(lambda x: x[0] != "_", dir(BonusNames))
-        ]
-        print(bonus_names)
+        # bonus_names = [x.lower() for x in filter(lambda x: x[0] != '_',dir(BonusNames))]
         for raw_bird in raw_birds:
-            print(raw_bird)
-            # enumerate the BonusNames
-            bonus_vector = [raw_bird[name] for name in bonus_names]
-            for name in bonus_names:
-                del raw_bird[name]
-
-            birds.append(WingspanBird(*raw_bird, bonus_vector))
+            birds.append(WingspanBird(**raw_bird))
+        return birds
 
     def reset(self):
         self.shared = Shared(self.birds)
@@ -66,39 +60,48 @@ class Game:
         # place start marker
         self.shared.place_start_marker(self.n_players)
         # set current player
-        self.current_player = self.shared.start_marker.position
+        self.first_player = self.shared.start_marker.position
         # set state
         self.state = UIState.initial_discard_cards
         # return initial observation
-        return self.observation(), 0, self.done
+        return self.observation(),self.return_actions(), 0, self.done
 
     @property
     def done(self):
         return self.state == UIState.game_over
-
+    
+    def return_actions(self):
+        # 3x5 vector for the board
+        # 1x20 vector for the hand
+        # 1x6 vector for the feeder
+        # 1x2 vector for activating bird yes/no
+        # 1x4 vector for drawing cards (3 faceup 1 deck)
+        # vector for picking your food??
+        # 15 + 20 + 6 + 2 + 4 = 47 length vector
+        # construct action vector
+        action_vector = np.zeros(58)
+        if self.players[self.current_player].state == UIState.initial_discard_cards:
+            hand_start = human_readable_action_dictionary['player food one']
+            num_cards = len(self.players[self.current_player].hand)
+            action_vector[hand_start:hand_start+num_cards] = 1
+        elif self.players[self.current_player].state == UIState.initial_discard_food:
+            current_food = self.players[self.current_player].return_food_vector()
+            food_start = human_readable_action_dictionary['player food one']
+            action_vector[food_start:food_start+5] = current_food
+        elif self.players[self.current_player].state == UIState.initial_discard_bonus_cards:
+            bonus_cards = self.players[self.current_player].return_bonus_card_vector()
+        return action_vector
+            
     def observation(self):
-        return f"{self.state}\n" + f"{self.players[self.current_player].observation()}"
+        return f'{self.state}\n' + f'{self.players[self.current_player].observation()}'
 
     def step(self, action):
-        if self.state == UIState.initial_discard_cards:
-            
         if self.players[self.current_player].state == UIState.initial_discard_cards:
-            # action.discard_bird_card(game, self.players[self.current_player])
             self.players[self.current_player].discard_bird_card(action)
-            self.players[self.current_player].state = UIState.initial_discard_food
         elif self.players[self.current_player].state == UIState.initial_discard_food:
             self.players[self.current_player].discard_food(action)
-            self.players[
-                self.current_player
-            ].state = UIState.initial_discard_bonus_cards
-        elif (
-            self.players[self.current_player].state
-            == UIState.initial_discard_bonus_cards
-        ):
+        elif self.players[self.current_player].state == UIState.initial_discard_bonus_cards:
             self.players[self.current_player].discard_bonus_card(action)
-            self.players[self.current_player].state = UIState.round_1
-            # start at marker
-            self.current_player = self.shared.start_marker.position
         elif self.players[self.current_player].state == UIState.round_1:
             ...
 

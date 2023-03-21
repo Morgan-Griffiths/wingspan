@@ -5,5 +5,8 @@ class PlayerHand:
     def add(self, card):
         self.cards.append(card)
 
-    def discard(self, card):
-        self.cards.remove(card)
+    def discard(self, index):
+        self.cards.pop(index)
+
+    def __len__(self):
+        return len(self.cards)

@@ -1,0 +1,236 @@
+[
+    {
+        "name": "Anatomist",
+        "expansion": "core",
+        "automata": true,
+        "condition": "Birds with body parts in their names",
+        "explanitory_text": "Body parts include back, beak, belly, bill, breast, cap, chin, collar, crest, crown, eye, face, head, leg, neck, rump, shoulder, tail, throat, toe, wing",
+        "value_points": "2 to 3 birds: 3; 4+ birds: 7",
+        "percent_birds": 22
+    },
+    {
+        "name": "Backyard Birder",
+        "expansion": "core",
+        "automata": false,
+        "condition": "Birds worth less than 4 points",
+        "explanitory_text": "",
+        "value_points": "5 to 6 birds: 3; 6+ birds: 6",
+        "percent_birds": 42
+    },
+    {
+        "name": "Bird Counter",
+        "expansion": "core",
+        "automata": true,
+        "condition": "Birds with a [flocking] power",
+        "explanitory_text": "",
+        "value_points": "2 per bird",
+        "percent_birds": 15
+    },
+    {
+        "name": "Bird Feeder",
+        "expansion": "core",
+        "automata": true,
+        "condition": "Birds that eat [seed]",
+        "explanitory_text": "",
+        "value_points": "5 to 7 birds: 3; 8+ birds: 7",
+        "percent_birds": 44
+    },
+    {
+        "name": "Breeding Manager",
+        "expansion": "core",
+        "automata": false,
+        "condition": "Birds that have at least 4 eggs laid on them",
+        "explanitory_text": "",
+        "value_points": "1 per bird",
+        "percent_birds": "28*"
+    },
+    {
+        "name": "Cartographer",
+        "expansion": "core",
+        "automata": true,
+        "condition": "Birds with geography terms in their names",
+        "explanitory_text": "Terms include American, Atlantic, Baltimore, California, Canada, Carolina, Chihuahua, Corsican, Eastern, Eurasian, European, Inca, Mississippi, Moor, Mountain, Northern, Prairie, Sandhill, Savannah, Western",
+        "value_points": "2 to 3 birds: 3; 4+ birds: 7",
+        "percent_birds": 21
+    },
+    {
+        "name": "Ecologist",
+        "expansion": "core",
+        "automata": false,
+        "condition": "Birds in your habitat with the fewest birds.",
+        "explanitory_text": "Ties count.",
+        "value_points": "2 per bird",
+        "percent_birds": "-"
+    },
+    {
+        "name": "Enclosure Builder",
+        "expansion": "core",
+        "automata": true,
+        "condition": "Birds with [ground] nests",
+        "explanitory_text": "Birds must have a [ground] or [star] nest symbol.",
+        "value_points": "4 to 5 birds: 4; 6+ birds: 7",
+        "percent_birds": 31
+    },
+    {
+        "name": "Falconer",
+        "expansion": "core",
+        "automata": true,
+        "condition": "Birds with a [predator] power",
+        "explanitory_text": "",
+        "value_points": "2 per bird",
+        "percent_birds": 13
+    },
+    {
+        "name": "Fishery Manager",
+        "expansion": "core",
+        "automata": true,
+        "condition": "Birds that eat [fish]",
+        "explanitory_text": "",
+        "value_points": "2 to 3 birds: 3; 4+ birds: 8",
+        "percent_birds": 18
+    },
+    {
+        "name": "Food Web Expert",
+        "expansion": "core",
+        "automata": true,
+        "condition": "Birds that eat only [invertebrate]",
+        "explanitory_text": "",
+        "value_points": "2 per bird",
+        "percent_birds": 9
+    },
+    {
+        "name": "Forester",
+        "expansion": "core",
+        "automata": true,
+        "condition": "Birds that can only live in [forest]",
+        "explanitory_text": "",
+        "value_points": "3 to 4 birds: 4; 5 birds: 8",
+        "percent_birds": 24
+    },
+    {
+        "name": "Historian",
+        "expansion": "core",
+        "automata": true,
+        "condition": "Birds named after a person",
+        "explanitory_text": "Any bird with an 's in its name.",
+        "value_points": "2 per bird",
+        "percent_birds": 11
+    },
+    {
+        "name": "Large Bird Specialist",
+        "expansion": "core",
+        "automata": true,
+        "condition": "Birds with wingspans over 65 cm",
+        "explanitory_text": "",
+        "value_points": "4 to 5 birds: 3; 6+ birds: 6",
+        "percent_birds": 35
+    },
+    {
+        "name": "Nest Box Builder",
+        "expansion": "core",
+        "automata": true,
+        "condition": "Birds with [cavity] nests",
+        "explanitory_text": "Birds must have a [cavity] or [star] nest symbol.",
+        "value_points": "4 to 5 birds: 4; 6+ birds: 7",
+        "percent_birds": 31
+    },
+    {
+        "name": "Omnivore Specialist",
+        "expansion": "core",
+        "automata": true,
+        "condition": "Birds that eat [wild]",
+        "explanitory_text": "Any bird that specifically has a [wild] symbol as part of its food cost.",
+        "value_points": "2 per bird",
+        "percent_birds": 16
+    },
+    {
+        "name": "Oologist",
+        "expansion": "core",
+        "automata": false,
+        "condition": "Birds that have at least 1 egg laid on them",
+        "explanitory_text": "",
+        "value_points": "7 to 8 birds: 3; 9+ birds: 6",
+        "percent_birds": "-"
+    },
+    {
+        "name": "Passerine Specialist",
+        "expansion": "core",
+        "automata": true,
+        "condition": "Birds with wingspans 30 cm or less",
+        "explanitory_text": "",
+        "value_points": "4 to 5 birds: 3; 6+ birds: 6",
+        "percent_birds": 35
+    },
+    {
+        "name": "Photographer",
+        "expansion": "core",
+        "automata": true,
+        "condition": "Birds with colors in their names",
+        "explanitory_text": "Colors include ash, black, blue, bronze, brown, cerulean, chestnut, coal, ferruginous, gold, gray, grey, green, honey, indigo, lazuli, purple, red, rose, roseate, ruby, ruddy, rufous, snowy, violet, white, yellow",
+        "value_points": "4 to 5 birds: 3; 6+ birds: 7",
+        "percent_birds": 34
+    },
+    {
+        "name": "Platform Builder",
+        "expansion": "core",
+        "automata": true,
+        "condition": "Birds with [platform] nests",
+        "explanitory_text": "Birds must have a [platform] or [star] nest symbol.",
+        "value_points": "4 to 5 birds: 4; 6+ birds: 7",
+        "percent_birds": 31
+    },
+    {
+        "name": "Prairie Manager",
+        "expansion": "core",
+        "automata": true,
+        "condition": "Birds that can only live in [grassland]",
+        "explanitory_text": "",
+        "value_points": "2 to 3 birds: 3; 4+ birds: 8",
+        "percent_birds": 19
+    },
+    {
+        "name": "Rodentologist",
+        "expansion": "core",
+        "automata": true,
+        "condition": "Birds that eat [rodent]",
+        "explanitory_text": "",
+        "value_points": "2 per bird",
+        "percent_birds": 15
+    },
+    {
+        "name": "Visionary Leader",
+        "expansion": "core",
+        "automata": false,
+        "condition": "Bird cards in hand at end of game",
+        "explanitory_text": "",
+        "value_points": "5 to 7 birds: 4; 8+ birds: 7",
+        "percent_birds": "-"
+    },
+    {
+        "name": "Viticulturalist",
+        "expansion": "core",
+        "automata": true,
+        "condition": "Birds that eat [fruit]",
+        "explanitory_text": "",
+        "value_points": "2 to 3 birds: 3; 4+ birds: 7",
+        "percent_birds": 22
+    },
+    {
+        "name": "Wetland Scientist",
+        "expansion": "core",
+        "automata": true,
+        "condition": "Birds that can only live in [wetland]",
+        "explanitory_text": "",
+        "value_points": "3 to 4 birds: 3; 5 birds: 7",
+        "percent_birds": 26
+    },
+    {
+        "name": "Wildlife Gardener",
+        "expansion": "core",
+        "automata": true,
+        "condition": "Birds with [bowl] nests",
+        "explanitory_text": "Birds must have a [bowl] or [star] nest symbol.",
+        "value_points": "4 to 5 birds: 4; 6+ birds: 7",
+        "percent_birds": 31
+    }
+]

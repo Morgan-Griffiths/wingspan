@@ -9,7 +9,7 @@ https://wingsplain.com/wingspan-bird-card-tier-list/
 
 ## Board
 
-3 x 5 grid of habitats:
+3 x 5 grid of habitats
 
 ## Rounds
 
@@ -162,3 +162,103 @@ Bonus cards in hand.
   - 9 wingspan
   - 10 action type (could be extraneous)
   - 11 action number (enum of actions)
+
+# main states
+
+- picking card from hand
+- picking food from feeder
+- picking food from stash
+- picking square to play/move bird
+- picking card from deck or faceup
+- activate/noop for bird
+
+## pick an action
+
+1. play bird card
+2. gain food
+3. lay eggs
+4. draw cards
+
+## play bird card
+
+1. pick a bird card
+2. pick a habitat
+3. pick food to discard
+4. activate bird power (if applicable)
+
+## gain food
+
+1. pick food from bird feeder (or reroll) (repeat until done)
+2. Discard a card for an extra food (if applicable)
+3. Trigger bird card abilities in the forest
+
+## lay eggs
+
+1. Pick birds to lay eggs on
+2. Discard a food for an extra egg (if applicable)
+3. Activate bird card abilities in the prairie
+
+## draw cards
+
+1. Draw card(s) from the deck or faceup cards
+2. Discard an egg to draw an extra card
+3. Activate bird card abilities in the wetlands
+
+## Activate bird card abilities / no op
+
+- tuck card (pick card from hand)
+- draw card (pick 1-4 (deck or faceup) )
+- lay egg (pick bird)
+- gain food (pick food from feeder)
+- move card (pick 2 habitats, noop)
+- roll dice outside feeder
+- repeat bird action
+
+## between turn action
+
+- when bird is played in a habitat
+- when lay eggs/gain food/draw cards is performed
+
+## played bird action
+
+- draw 2 cards -> pick cards
+- play another bird -> pick bird -> pick food
+- draw bonus cards -> pick a card
+
+# Available actions
+
+board 3x5
+bird feeder 1x6
+player food 1x5
+player hand 1x20
+draw deck 1
+draw faceup 3
+activate bird 1
+noop 1
+
+# State
+
+## per player:
+
+- eggs 3x5
+- birds 3x5
+- player food 1x5
+- player hand 1x20
+- current score 1x1
+- tucked cards + cached food 1x1
+- bonus cards 1x10
+
+vector size = 67
+
+## global state:
+
+- bird feeder 1x6
+- faceup cards 1x3
+- round goals 1x4
+- cards in discard 1x50
+- cards left in deck. 1x1
+- start marker 1x1 (which player)
+
+vector size = 65
+
+# How it works

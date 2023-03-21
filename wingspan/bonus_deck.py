@@ -28,11 +28,14 @@ class BonusNames:
     Wildlife_Gardener = auto()
     
 class BonusCard:
-    def __init__(self, name, stage1,stage2, rules=None):
+    def __init__(self, name, expansion,automata,condition,explanitory_text,value_points,percent_birds):
         self.name = name
-        self.stage1 = stage1
-        self.stage2 = stage2
-        self.rules = rules
+        self.expansion = expansion
+        self.automata = automata
+        self.condition = condition
+        self.explanitory_text = explanitory_text
+        self.value_points = value_points
+        self.percent_birds = percent_birds
 
     def __str__(self):
         return f"\n{self.name}"
@@ -41,13 +44,22 @@ class Bonus:
         self.minimum_birds = minimum_birds
         self.points = points
 
+class BonusCards:
+    def __init__(self):
+        self.cards = []
 
-bonus_cards = [
-    BonusCard("Anatomist", Bonus(2,3),Bonus(4,7)),
-    BonusCard('Avian Theriogenologist', Bonus(5,4),Bonus(7,7)),
-    BonusCard('Backyard Birder', Bonus(5,3),Bonus(7,6)),
-    BonusCard('Bird Counter', Bonus(5,4),None), # 2 per bird
-]
+    def add(self, card):
+        self.cards.append(card)
+    
+    def discard(self, index):
+        self.cards.pop(index)
+
+    def __len__(self):
+        return len(self.cards)
+
+    def return_bonus_vector(self):
+        return [card.name for card in self.cards]
+    
 class BonusDeck():
     def __init__(self):
         self.reset()

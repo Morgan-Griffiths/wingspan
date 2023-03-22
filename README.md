@@ -62,12 +62,12 @@ Each bird card consists of the following:
 
 ## Food
 
-1. Invertibrate
+1. Invertebrate
 2. Seed
 3. Fruit
 4. Fish
 5. Rodent
-6. Invertibrate/seed
+6. Invertebrate/seed
 
 ## Habitat
 
@@ -155,7 +155,7 @@ Bonus cards in hand.
 
 - each bird is a number 0-170
 - each bird card can be represented by a vector:
-  - 0-5 (invertibrate,seed,...,wild) count of each food type required to play
+  - 0-5 (invertebrate,seed,...,wild) count of each food type required to play
   - 6 nest type
   - 7 nest capacity (number between 0-7)
   - 8 points

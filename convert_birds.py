@@ -42,6 +42,8 @@ for index, row in df.iterrows():
             col_name = 'points'
         elif col_name == 'color':
             col_name = 'action_type'
+        elif col_name == 'grassland':
+            col_name = 'prairie'
         if isinstance(col_value,str):
             col_value = col_value.lower()
             if col_value == 'x':
@@ -62,7 +64,7 @@ for index, row in df.iterrows():
             bird['food_cost'][col_name] = col_value
         elif col_name in action_cols:
             bird['action'][col_name] = col_value
-        elif col_name in ['forest','wetland','grassland']:
+        elif col_name in ['forest','wetland','prairie']:
             bird['habitat'][col_name] = col_value
         elif col_name in bonus_names:
             bird['bonuses'][col_name] = col_value

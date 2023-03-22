@@ -19,7 +19,7 @@ class Actions(Enum):
 
     all_players_gain_one_seed = auto()
     all_players_gain_one_fruit = auto()
-    all_players_gain_one_invertibrate = auto()
+    all_players_gain_one_invertebrate = auto()
     all_players_gain_one_rodent = auto()
     all_players_gain_one_fish = auto()
 
@@ -28,7 +28,7 @@ class Actions(Enum):
     roll_dice_not_in_birdfeeder_gain_rodents_if_available = auto()
     roll_dice_not_in_birdfeeder_gain_fish_if_available = auto()
     roll_dice_not_in_birdfeeder_gain_fruit_if_available = auto()
-    roll_dice_not_in_birdfeeder_gain_invertibrate_if_available = auto()
+    roll_dice_not_in_birdfeeder_gain_invertebrate_if_available = auto()
     roll_dice_not_in_birdfeeder_gain_seed_if_available = auto()
 
     lay_egg_on_bird = auto()
@@ -40,7 +40,7 @@ class Actions(Enum):
 
     pick_a_player_to_pick_food_from_bird_feeder = auto()
 
-    once_between_turns_if_forest_bird_played_gain_one_invertibrate = auto()
+    once_between_turns_if_forest_bird_played_gain_one_invertebrate = auto()
     once_between_turns_if_wetland_bird_played_gain_one_fish = auto()
     once_between_turns_if_lay_eggs_gain_egg_on_cup_nest = auto()
     once_between_turns_if_gainfood_gain_one_rodent = auto()
@@ -50,25 +50,25 @@ class Actions(Enum):
     look_at_card_if_less_than_50_cm_tuck = auto()
 
     # Gain
-    gain_one_invertibrate = auto()
+    gain_one_invertebrate = auto()
     gain_one_seed = auto()
     gain_one_fruit = auto()
     gain_one_fish = auto()
     gain_one_rodent = auto()
 
-    gain_one_invertibrate_from_birdfeeder = auto()
+    gain_one_invertebrate_from_birdfeeder = auto()
     gain_one_seed_from_birdfeeder = auto()
     gain_one_fruit_from_birdfeeder = auto()
     gain_one_fish_from_birdfeeder = auto()
     gain_one_rodent_from_birdfeeder = auto()
 
-    gain_three_invertibrate_from_supply = auto()
+    gain_three_invertebrate_from_supply = auto()
     gain_three_seed_from_supply = auto()
     gain_three_fruit_from_supply = auto()
     gain_three_rodent_from_supply = auto()
     gain_three_fish_from_supply = auto()
 
-    gain_all_invertibrate_from_birdfeeder = auto()
+    gain_all_invertebrate_from_birdfeeder = auto()
     gain_all_seed_from_birdfeeder = auto()
     gain_all_fruit_from_birdfeeder = auto()
     gain_all_fish_from_birdfeeder = auto()
@@ -129,7 +129,7 @@ actions = {
         game, Food.fruit
     ),
     "all players gain 1 [invertebrate] from the supply.": lambda game: all_gain_food(
-        game, Food.invertibrate
+        game, Food.invertebrate
     ),
     "all players gain 1 [seed] from the supply.": lambda game: all_gain_food(
         game, Food.seed

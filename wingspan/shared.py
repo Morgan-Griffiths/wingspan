@@ -20,6 +20,9 @@ class Shared:
     def render(self):
         print("shared")
 
+    def can_reroll(self):
+        return self.feeder.can_reroll()
+
     def draw_bird_card(self):
         return self.birds.draw()
     

@@ -2,7 +2,7 @@ from enum import Enum, auto
 
 
 class Food(Enum):
-    invertibrate = auto()
+    invertebrate = auto()
     seed = auto()
     fruit = auto()
     rodent = auto()
@@ -14,3 +14,12 @@ class Food(Enum):
     
     def __repr__(self):
         return self.name
+    
+food_name_dictionary = {
+    'invertebrate': Food.invertebrate,
+    'seed': Food.seed,
+    'fruit': Food.fruit,
+    'rodent': Food.rodent,
+    'fish': Food.fish,
+    'wild': Food.wild,
+}

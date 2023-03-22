@@ -1,7 +1,10 @@
 
 from enum import Enum, auto
+from itertools import count
 
+from wingspan.food import Food
 
+                                      
 class GameActions(Enum):
     forest_one = auto()
     forest_two = auto()
@@ -24,11 +27,11 @@ class GameActions(Enum):
     bird_feeder_four = auto()
     bird_feeder_five = auto()
     bird_feeder_reroll = auto()
-    player_food_one = auto()
-    player_food_two = auto()
-    player_food_three = auto()
-    player_food_four = auto()
-    player_food_five = auto()
+    invertebrate = auto()
+    seed = auto()
+    fruit = auto()
+    rodent = auto()
+    fish = auto()
     player_hand_one = auto()
     player_hand_two = auto()
     player_hand_three = auto()
@@ -71,6 +74,51 @@ class GameActions(Enum):
     choose_player_two = auto()
     choose_player_three = auto()
 
+    def get_value(self):
+        return self.value - 1
+
+# GameActions = Enum('GameActions',
+#                    zip(['forest one','forest two','forest three','forest four','forest five',
+#                         'prairie one','prairie two','prairie three','prairie four','prairie five',
+#                         'wetlands one','wetlands two','wetlands three','wetlands four','wetlands five',
+#                         'bird feeder one','bird feeder two','bird feeder three','bird feeder four','bird feeder five','bird feeder reroll',
+#                         'one','two','three','four','five',
+#                         'player hand one','player hand two','player hand three','player hand four','player hand five','player hand six','player hand seven','player hand eight','player hand nine','player hand ten','player hand eleven','player hand twelve','player hand thirteen','player hand fourteen','player hand fifteen','player hand sixteen','player hand seventeen','player hand eighteen','player hand nineteen','player hand twenty',
+#                         'player bonus card one','player bonus card two','player bonus card three','player bonus card four','player bonus card five','player bonus card six','player bonus card seven','player bonus card eight',
+#                         'draw from deck','draw from faceup one','draw from faceup two','draw from faceup three',
+#                         'play a bird card','gain food','lay eggs','draw cards',
+#                         'activate bird card','no op',
+#                         'choose player one','choose player two','choose player three'],count()))
+
+player_hand_dictionary_itos = {
+    0: 'player hand one',
+    1: 'player hand two',
+    2: 'player hand three',
+    3: 'player hand four',
+    4: 'player hand five',
+}
+player_hand_dictionary_stoi = {v: k for k, v in player_hand_dictionary_itos.items()}
+
+player_food_dictionary_itos = {
+    0: 'invertebrate',
+    1: 'seed',
+    2: 'fruit',
+    3: 'rodent',
+    4: 'fish',
+}
+player_food_dictionary_stoi = {v: k for k, v in player_food_dictionary_itos.items()}
+
+player_bonus_card_dictionary_itos = {
+    0: 'player bonus card one',
+    1: 'player bonus card two',
+    2: 'player bonus card three',
+    3: 'player bonus card four',
+    4: 'player bonus card five',
+    5: 'player bonus card six',
+    6: 'player bonus card seven',
+    7: 'player bonus card eight',
+}
+player_bonus_card_dictionary_stoi = {v: k for k, v in player_bonus_card_dictionary_itos.items()}
 
 action_dictionary = {
     0: 'forest one',
@@ -94,11 +142,11 @@ action_dictionary = {
     18: 'bird feeder four',
     19: 'bird feeder five',
     20: 'bird feeder reroll',
-    21: 'player food one',
-    22: 'player food two',
-    23: 'player food three',
-    24: 'player food four',
-    25: 'player food five',
+    21: Food.invertebrate,
+    22: Food.seed,
+    23: Food.fruit,
+    24: Food.rodent,
+    25: Food.fish,
     26: 'player hand one',
     27: 'player hand two',
     28: 'player hand three',
@@ -156,6 +204,19 @@ class UIState(Enum):
     def __repr__(self) -> str:
         return self.name
     
+class IntermediateState(Enum):
+    no_op = auto()
+    picking_bird_card_in_hand =  auto()
+    picking_player_food = auto()
+    picking_feeder_food = auto()
+    picking_bonus_card_to_keep = auto()
+    choosing_habitat_to_play_bird = auto()
+    choosing_bird_on_board = auto()
+    choosing_player = auto()
+    laying_eggs_on_bird = auto()
+    discarding_or_tucking_card_from_hand = auto()
+    picking_card_to_draw = auto()
+    
 
 class Habitat(Enum):
     forest = auto()
@@ -178,6 +239,10 @@ class PowerColors(Enum):
     white = auto()
 
 
-
+habitat_dict = {
+    'forest': Habitat.forest.value - 1,
+    'prairie': Habitat.prairie.value - 1,
+    'wetlands': Habitat.wetlands.value - 1,
+}
 
 

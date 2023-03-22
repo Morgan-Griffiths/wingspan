@@ -1,6 +1,4 @@
 from enum import Enum, auto
-from wingspan.food import Food
-from wingspan.helpers import Habitat
 import numpy as np
 
 

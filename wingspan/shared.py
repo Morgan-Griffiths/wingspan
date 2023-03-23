@@ -17,8 +17,8 @@ class Shared:
         self.faceup = BirdFaceup()
         self.start_marker = Marker()
 
-    def render(self):
-        print("shared")
+    def increment_start_marker(self):
+        self.start_marker.increment()
 
     def can_reroll(self):
         return self.feeder.can_reroll()

@@ -14,9 +14,9 @@ def get_player_input(valid_actions):
 
 if __name__ == "__main__":
     game = Game(1)
-    observation,valid_actions,reward,done = game.reset()
+    observation,valid_actions,done = game.reset()
     while not done:
         print(f'Current state {observation}')
         action = get_player_input(valid_actions)
-        observation,valid_actions,reward,done = game.step(action)
+        observation,valid_actions,done = game.step(action)
     game.play()

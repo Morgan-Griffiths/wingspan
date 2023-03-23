@@ -13,9 +13,9 @@ class ActionType(Enum):
 
 
 class Actions(Enum):
-    player_a_second_bird_card_in_forest = auto()
-    player_a_second_bird_card_in_grassland = auto()
-    player_a_second_bird_card_in_wetlands = auto()
+    play_a_second_bird_card_in_forest = auto()
+    play_a_second_bird_card_in_grassland = auto()
+    play_a_second_bird_card_in_wetlands = auto()
 
     all_players_gain_one_seed = auto()
     all_players_gain_one_fruit = auto()

@@ -7,13 +7,34 @@ from wingspan.birds import WingspanBird
 from wingspan.bonus_deck import BonusNames,bonus_name_dictionary_itos
 import json
 import numpy as np
+
+class GameActions(Enum):
+    draw_a_card = auto()
+    pick_an_action = auto()
+    pick_a_bird_card = auto()
+    pick_feeder_food = auto()
+    pick_player_food = auto()
+    pick_bird_on_board = auto()
+    pick_board_location = auto()
+    pick_player_to_act = auto()
+    initial_discard_cards = auto()
+    initial_discard_food = auto()
+    discard_bonus_cards = auto()
+    calculate_end_of_round_scores = auto()
+
+class GameAction:
+    def __init__(self,action,player):
+        self.action = action
+        self.player = player
+
 class Game:
     def __init__(self, n_players, human_readable=True):
         self.n_players = n_players
         self.human_readable = human_readable
         self.shared = None
         self.players = None
-        self.first_player = None
+        self.current_player = None
+        self.acting_player = None
         self.discarding_cards = False
         self.discarding_food = False
         self.drawing_cards = False
@@ -21,6 +42,7 @@ class Game:
         self.picking_bird = False
         self.picking_board_location = False
         self.birds = self.load_birds()
+        self.action_stack = []
 
     def load_birds(self):
         with open('birds.json', 'r') as f:
@@ -31,6 +53,7 @@ class Game:
         for raw_bird in raw_birds:
             birds.append(WingspanBird(**raw_bird))
         return birds
+    
 
     def reset(self):
         self.shared = Shared(self.birds)
@@ -61,20 +84,17 @@ class Game:
         # place start marker
         self.shared.place_start_marker(self.n_players)
         # set current player
-        self.first_player = self.current_player = self.shared.start_marker.position
+        self.acting_player = self.current_player = self.shared.start_marker.position
         # set state
-        self.state = UIState.initial_discard_cards
+        self.prepopulate_stack()
         # return initial observation
-        action_vector = self.return_actions()
-        return self.observation(),self.action_vector_to_readable(action_vector), 0, self.done
+        return self.handle_state()
+    
+    def handle_state(self):
+        current_state = self.action_stack.pop()
+        action_vector = self.return_actions(current_state)
+        return self.observation(current_state),self.action_vector_to_readable(action_vector), self.done
 
-    @property
-    def done(self):
-        return self.state == UIState.game_over
-    
-    def increment_player(self):
-        self.current_player = (self.current_player + 1) % self.n_players
-    
     def action_vector_to_readable(self,action_vector):
         # use np.where to get indices of nonzero elements
         nonzero_indices = np.where(action_vector > 0)[0]
@@ -86,23 +106,24 @@ class Game:
             readable_actions = [action_dictionary[idx] for idx in nonzero_indices]
         return readable_actions
     
-    def return_actions(self):
+    def return_actions(self,situation):
         # construct action vector
+        acting_player,action = situation.player,situation.action
         action_vector = np.zeros(len(human_readable_action_dictionary),dtype=int)
-        if self.players[self.current_player].state == UIState.initial_discard_cards:
+        if action == GameActions.initial_discard_cards:
             hand_start = human_readable_action_dictionary['player hand one']
-            num_cards = len(self.players[self.current_player].hand)
+            num_cards = len(self.players[acting_player].hand)
             action_vector[hand_start:hand_start+num_cards] = 1
             action_vector[human_readable_action_dictionary['no op']] = 1
-        elif self.players[self.current_player].state == UIState.initial_discard_food:
-            current_food = self.players[self.current_player].return_food_vector()
+        elif action == GameActions.initial_discard_food:
+            current_food = self.players[acting_player].return_food_vector()
             food_start = human_readable_action_dictionary[Food.invertebrate]
             action_vector[food_start:food_start+5] = current_food
-        elif self.players[self.current_player].state == UIState.initial_discard_bonus_cards:
-            bonus_cards = self.players[self.current_player].return_bonus_card_vector()
+        elif action == GameActions.discard_bonus_cards:
+            bonus_cards = self.players[acting_player].return_bonus_card_vector()
             bonus_start = human_readable_action_dictionary['player bonus card one']
-            action_vector[bonus_start:bonus_start+len(self.players[self.current_player].bonus_cards)] = bonus_cards
-        elif self.players[self.current_player].state == UIState.round_1:
+            action_vector[bonus_start:bonus_start+len(self.players[acting_player].bonus_cards)] = bonus_cards
+        elif action == GameActions.pick_an_action:
             # 4 actions
             action_start = human_readable_action_dictionary['play a bird']
             action_vector[action_start:action_start+4] = 1
@@ -113,9 +134,9 @@ class Game:
                 ...
         return action_vector
             
-    def observation(self):
-        return f'{self.state}\n' + f'{self.players[self.current_player].observation()}'
-
+    def observation(self,situation:GameAction):
+        return f'{situation}\n' + f'{self.players[situation.acting_player].observation()}'
+    
     def step(self, action):
         if self.players[self.current_player].state == UIState.initial_discard_cards:
             if action == action_dictionary[GameActions.no_op.get_value()]:
@@ -130,65 +151,48 @@ class Game:
             self.players[self.current_player].discard_bonus_card(action)
             self.players[self.current_player].state = UIState.round_1
             self.increment_player()
-        elif self.players[self.current_player].state == UIState.round_1:
-            # handle play bird card
-            # handle lay eggs
-            # handle draw cards
-            # handle gain food
-            if self.players[self.current_player].intermediate_state == IntermediateState.picking_feeder_food:
-                # handle picking food, should be 1-5 + discard + reroll
-                # check if they can discard a card to get food
-                # if done revert intermediate state to None
-                if action == 'discard':
-                    # pick card to discard
-                    self.players[self.current_player].intermediate_state = IntermediateState.picking_card_to_discard
-                
-                food = self.shared.pick_food(action)
-                self.players[self.current_player].add_food(food)
-                # if player is done with getting food, revert intermediate state to None (in future would check for bird activations)
-
-                
-            elif self.players[self.current_player].intermediate_state == IntermediateState.picking_card_to_draw:
-                # handle picking card to draw
-                # if done revert intermediate state to None
-                self.players[self.current_player].draw_card(action)
-            elif self.players[self.current_player].intermediate_state == IntermediateState.laying_eggs_on_bird:
-                # choose bird to lay eggs on
-                # if done revert intermediate state to None
-                self.players[self.current_player].lay_eggs_on_bird(action)
-            elif self.players[self.current_player].intermediate_state == IntermediateState.picking_bird_card_in_hand:
-                
-            elif self.players[self.current_player].intermediate_state == IntermediateState.picking_player_food:
-                ...
-            elif self.players[self.current_player].intermediate_state == IntermediateState.picking_bonus_card_to_keep:
-                ...
-            elif self.players[self.current_player].intermediate_state == IntermediateState.choosing_habitat_to_play_bird:
-                ...
-            elif self.players[self.current_player].intermediate_state == IntermediateState.choosing_bird_on_board:
-                ...
-            elif self.players[self.current_player].intermediate_state == IntermediateState.laying_eggs_on_bird:
-                ...
-            elif self.players[self.current_player].intermediate_state == IntermediateState.discarding_or_tucking_card_from_hand:
-                ...
-            if action == 'gain food':
-                self.players[self.current_player].intermediate_state = IntermediateState.picking_feeder_food
-            elif action == 'draw cards':
-                self.players[self.current_player].intermediate_state = IntermediateState.picking_card_to_draw
-            elif action == 'lay eggs':
-                self.players[self.current_player].intermediate_state = IntermediateState.laying_eggs_on_bird
-            elif action == 'play a bird':
-                self.players[self.current_player].intermediate_state = IntermediateState.picking_bird_card_in_hand
-            else:
-                raise ValueError(f"Invalid action {action}")
-            # check for round end. Distribute points across players, increment round
-        elif self.players[self.current_player].state == UIState.round_2:
-            ...
-        elif self.players[self.current_player].state == UIState.round_3:
-            ...
-        elif self.players[self.current_player].state == UIState.round_4:
-            ...
         action_vector = self.return_actions()
         return self.observation(),self.action_vector_to_readable(action_vector), 0, self.done
+
+    
+    def prepopulate_stack(self):
+        # add card selection
+        # add food selection
+        # bonus card selection
+        for _ in range(self.n_players):
+            self.action_stack.append(GameAction(self.acting_player,GameActions.initial_discard_cards))
+            self.action_stack.append(GameAction(self.acting_player,GameActions.initial_discard_food))
+            self.action_stack.append(GameAction(self.acting_player,GameActions.discard_bonus_cards))
+            self.increment_acting_player()
+        self.acting_player = self.shared.start_marker.position
+        for _ in range(8 * self.n_players):
+            self.action_stack.append(GameAction(self.acting_player,GameActions.pick_an_action))
+            self.increment_acting_player()
+        # calculate round results
+        self.action_stack.append(GameAction(_,GameActions.calculate_end_of_round_scores))
+        self.shared.increment_start_marker()
+        self.acting_player = self.shared.start_marker.position
+        for _ in range(7 * self.n_players):
+            self.action_stack.append(GameAction(self.acting_player,GameActions.pick_an_action))
+            self.increment_acting_player()
+        # calculate round results
+        self.action_stack.append(GameAction(_,GameActions.calculate_end_of_round_scores))
+        self.shared.increment_start_marker()
+        self.acting_player = self.shared.start_marker.position
+        for _ in range(6 * self.n_players):
+            self.action_stack.append(GameAction(self.acting_player,GameActions.pick_an_action))
+            self.increment_acting_player()
+        # calculate round results
+        self.action_stack.append(GameAction(_,GameActions.calculate_end_of_round_scores))
+        self.shared.increment_start_marker()
+        self.acting_player = self.shared.start_marker.position
+        for _ in range(5 * self.n_players):
+            self.action_stack.append(GameAction(self.acting_player,GameActions.pick_an_action))
+            self.increment_acting_player()
+        # calculate round results
+        self.action_stack.append(GameAction(_,GameActions.calculate_end_of_round_scores))
+        self.action_stack = self.action_stack[::-1]
+
 
     def render(self):
         self.shared.render()
@@ -209,6 +213,16 @@ class Game:
             )
             self.state = UIState.game_over
 
+    @property
+    def done(self):
+        return self.state == UIState.game_over
+    
+    def increment_acting_player(self):
+        self.acting_player = (self.acting_player + 1) % self.n_players
+    
+    def increment_player(self):
+        self.current_player = (self.current_player + 1) % self.n_players
+    
 
 # Game start
 # pick cards (is this going to be some combination of 5? for the AI)

@@ -53,7 +53,6 @@ class Game:
         for raw_bird in raw_birds:
             birds.append(WingspanBird(**raw_bird))
         return birds
-    
 
     def reset(self):
         self.shared = Shared(self.birds)
@@ -138,21 +137,30 @@ class Game:
         return f'{situation}\n' + f'{self.players[situation.acting_player].observation()}'
     
     def step(self, action):
-        if self.players[self.current_player].state == UIState.initial_discard_cards:
+        while self.action_stack:
+            top = stack.pop()
+            action_vector = parse(top, action) # this may push itself or other actions on the stack
+            if action_vector:
+                return action_vector
+            action = None
+            # get None or action_vector from parsing top of stack
             if action == action_dictionary[GameActions.no_op.get_value()]:
-                self.players[self.current_player].state = UIState.initial_discard_food
-            else:
-                self.players[self.current_player].discard_bird_card(action)
-        elif self.players[self.current_player].state == UIState.initial_discard_food:
-            self.players[self.current_player].discard_food(action)
-            if sum(self.players[self.current_player].return_food_vector()) == 5 - len(self.players[self.current_player].hand):
-                self.players[self.current_player].state = UIState.initial_discard_bonus_cards
-        elif self.players[self.current_player].state == UIState.initial_discard_bonus_cards:
-            self.players[self.current_player].discard_bonus_card(action)
-            self.players[self.current_player].state = UIState.round_1
-            self.increment_player()
-        action_vector = self.return_actions()
-        return self.observation(),self.action_vector_to_readable(action_vector), 0, self.done
+                return 
+            if self.players[self.current_player].state == UIState.initial_discard_cards:
+                if action == action_dictionary[GameActions.no_op.get_value()]:
+                    self.players[self.current_player].state = UIState.initial_discard_food
+                else:
+                    self.players[self.current_player].discard_bird_card(action)
+            elif self.players[self.current_player].state == UIState.initial_discard_food:
+                self.players[self.current_player].discard_food(action)
+                if sum(self.players[self.current_player].return_food_vector()) == 5 - len(self.players[self.current_player].hand):
+                    self.players[self.current_player].state = UIState.initial_discard_bonus_cards
+            elif self.players[self.current_player].state == UIState.initial_discard_bonus_cards:
+                self.players[self.current_player].discard_bonus_card(action)
+                self.players[self.current_player].state = UIState.round_1
+                self.increment_player()
+            action_vector = self.return_actions()
+            return self.observation(),self.action_vector_to_readable(action_vector), 0, self.done
 
     
     def prepopulate_stack(self):
